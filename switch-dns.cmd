@@ -1,13 +1,21 @@
 @echo off
+:: Check for admin privileges
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Requesting admin privileges...
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
 Title "dnsservers switch"
 echo Press 1 to set to cloudflare
 echo Press 2 to set to google public
 echo Press 3 to set to quad 9
 echo Press 4 to set to adguard
 echo Press 5 to set to tiarapp
-echo Press 6 to reset to dhcp
-rem echo Press 5 to set
-choice /c:123456 /D:6 /T:10
+echo Press 6 to reset to next dns
+echo Press 7 to reset to dhcp
+choice /c:1234567 /D:7 /T:10
+if errorlevel == 7 goto seven
 if errorlevel == 6 goto six
 if errorlevel == 5 goto five
 if errorlevel == 4 goto four
@@ -15,12 +23,25 @@ if errorlevel == 3 goto three
 if errorlevel == 2 goto two
 if errorlevel == 1 goto one
 
-:six
+:seven
 rem set to dhcp
 netsh interface ipv4 set dnsservers "Ethernet" source=dhcp
 netsh interface ipv6 set dnsservers "Ethernet" source=dhcp
 netsh interface ipv4 set dnsservers "Wi-Fi" source=dhcp
 netsh interface ipv6 set dnsservers "Wi-Fi" source=dhcp
+ipconfig -flushdns
+goto end
+
+:six
+rem set to next dns
+netsh interface ipv4 set dnsservers "Ethernet" static 45.90.28.225
+netsh interface ipv4 add dnsservers "Ethernet" 45.90.30.225 index=2
+netsh interface ipv6 set dnsservers "Ethernet" static 2a07:a8c0::ec:a14c
+netsh interface ipv6 add dnsservers "Ethernet" 2a07:a8c1::ec:a14c index=2
+netsh interface ipv4 set dnsservers "Wi-Fi" static 45.90.28.225
+netsh interface ipv4 add dnsservers "Wi-Fi" 45.90.30.225 index=2
+netsh interface ipv6 set dnsservers "Wi-Fi" static 2a07:a8c0::ec:a14c
+netsh interface ipv6 add dnsservers "Wi-Fi" 2a07:a8c1::ec:a14c index=2
 ipconfig -flushdns
 goto end
 
@@ -88,5 +109,4 @@ ipconfig -flushdns
 goto end
 
 :end
-pause
 exit
