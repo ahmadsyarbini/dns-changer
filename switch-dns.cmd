@@ -9,14 +9,16 @@ if %errorLevel% neq 0 (
 Title "dnsservers switch"
 echo Press 1 to set to dhcp
 echo Press 2 to set to google public
-echo Press 3 to set to adguard
-echo Press 4 to set to blissdns
-rem choice /c:1234 /D:1 /T:10 yang lama
-choice /c 1234 /m "Enter your choice: "
+echo Press 3 to set to adguard 80 percent
+echo Press 4 to set to blissdns 94 percent
+echo Press 5 to set to doh tiarapp
+rem echo Press 6 to set to bancuh 97 precent too much fp
+choice /c 12345 /D:1 /T:10 /m "Enter your choice: "
 if %errorlevel% == 1 goto dhcp
 if %errorlevel% == 2 goto google
 if %errorlevel% == 3 goto adguard
 if %errorlevel% == 4 goto blissdns
+if %errorlevel% == 5 goto tiarapp
 
 :dhcp
 rem set to dhcp
@@ -59,6 +61,17 @@ netsh interface ipv4 set dnsservers "Ethernet" static 173.255.201.254
 netsh interface ipv6 set dnsservers "Ethernet" static 2600:3c00::f03c:93ff:feca:d2be
 netsh interface ipv4 set dnsservers "Wi-Fi" static 173.255.201.254
 netsh interface ipv6 set dnsservers "Wi-Fi" static 2600:3c00::f03c:93ff:feca:d2be
+ipconfig -flushdns
+goto end
+
+:tiarapp
+rem set to tiarapp
+netsh interface ipv4 set dnsservers "Ethernet" static 174.138.21.128
+netsh interface ipv4 add dnsservers "Ethernet" 188.166.206.224 index=2
+netsh interface ipv6 set dnsservers "Ethernet" static 2400:6180:0:d0::5f6e:4001
+netsh interface ipv4 set dnsservers "Wi-Fi" static 174.138.21.128
+netsh interface ipv4 add dnsservers "Wi-Fi" 188.166.206.224 index=2
+netsh interface ipv6 set dnsservers "Wi-Fi" static 2400:6180:0:d0::5f6e:4001
 ipconfig -flushdns
 goto end
 
