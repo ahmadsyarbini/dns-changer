@@ -1,1 +1,2 @@
-Replace network name with yours
+# Usage
+replace wifi-name and ethernet-name in the set part
