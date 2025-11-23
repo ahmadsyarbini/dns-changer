@@ -12,12 +12,13 @@ set "wifi-name=Wi-Fi"
 set "ethernet-name=Ethernet"
 
 Title "dnsservers switch"
-echo Press 1 to set to dhcp
-echo Press 2 to set to google public
-echo Press 3 to set to cloudflare
-echo Press 4 to set to adguard 80 percent
-echo Press 5 to set to blissdns 94 percent
-echo Press 6 to set to doh tiarapp
+echo DNS Server switch
+echo Press [1] to set to DHCP (default)
+echo Press [2] to set to Google Public 8.8.8.8
+echo Press [3] to set to Cloudflare 1.1.1.1
+echo Press [4] to set to Adguard (80 percent adblocked)
+echo Press [5] to set to Blissdns (94 percent adblocked)
+echo Press [6] to set to Tiarapp
 rem echo Press 6 to set to bancuh 97 precent too much fp
 choice /c 123456 /D:1 /T:10 /m "Enter your choice: "
 if %errorlevel% == 1 goto dhcp
