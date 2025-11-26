@@ -20,6 +20,9 @@ echo Press [4] to set to Adguard (80 percent adblocked)
 echo Press [5] to set to Blissdns (94 percent adblocked)
 echo Press [6] to set to Tiarapp
 rem echo Press 6 to set to bancuh 97 precent too much fp
+
+echo Current wifi and ethernet names are : %wifi-name% and %ethernet-name%
+
 choice /c 123456 /D:1 /T:10 /m "Enter your choice: "
 if %errorlevel% == 1 goto dhcp
 if %errorlevel% == 2 goto google
