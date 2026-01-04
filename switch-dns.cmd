@@ -1,12 +1,7 @@
 @echo off
-:: Check for admin privileges
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo Requesting admin privileges...
-    powershell -Command "Start-Process '%~f0' -Verb RunAs"
-    exit /b 1
-)
-
+:: Admin priv elevator
+net session >nul 2>&1 || (powershell -c "Start-Process '%~f0' -Verb RunAs" & exit /b)
+:: End of admin elevator
 rem set network name value
 set "wifi-name=Wi-Fi"
 set "ethernet-name=Ethernet"
